@@ -1,10 +1,10 @@
-// Arduino RC Car Developed and programmed by Devin Namaky for his children
-// Arduino UNO
+// Arduino RC Car developed and programmed by Devin Namaky for his children
+// Any microcontroller will do, but using here a Seeeduino XIAO for a small footprint (we want a small car to print on a resin printer)
 // Two generic joysticks for a remote. This version is wireless. There is a separate INO file for the controller code using a NANO.
-// Joysticks can be programmed a variety of ways. This version the left joystick controls F / R, and the right joystick controls L / R
-// Motor driver occupying PINs 5 thru 7 and 2 thru 4 on Arduino UNO as the below variables indicate.
-// Wireless nRF24L01 SPI is on 11 thru 13, and CE / CSN are pins 8 and 10
-// This version is driving with two DC motors and no servo. There is a 3rd caster wheel that swivels freely on the back of the car.
+// Joysticks can be programmed a variety of ways. This version the left joystick y-axis controls F / R, and the right joystick x-axis controls L / R. The right joystick push button is used to control the max motor speed. This is useful if you wnat to run the car indoor vs outdoor or simply don't want to strip your gears or crash into a wall with too much power depending on the battery setup you choose.
+// Motor driver occupying PINs 0 thru 5 on a Seeeduino XIAO as the below variables indicate.
+// Wireless nRF24L01 SPI is on 8 thru 10, and CE / CSN are pins 6 and 7
+// This version is driving with two DC motors and no servo. The steering DC motor has something akin to rack and pinion for steering for now.
 
 //--------------DEFINITIONS & LIBRARIES--------------------//
 #include <SPI.h>
