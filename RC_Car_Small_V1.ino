@@ -8,25 +8,23 @@
 
 //--------------DEFINITIONS & LIBRARIES--------------------//
 #include <SPI.h>
-#include <nRF24L01.h>
 #include <RF24.h>
 RF24 radio(6, 7); // CE, CSN
 const byte address[6] = "00001";
 
-int PWMA = 1;
-int AIN1 = 2; 
-int AIN2 = 0;  
-int PWMB = 5;
-int BIN1 = 3;
-int BIN2 = 4;
-int motorSpeedA = 0;
-int motorSpeedB = 0;
-int steerPower = 125; // Adjust for power delivered to steering
-int motorSpeedAMAX = 90; //Adjust for maximum power delivered to motor A
-int joystick1xAxis; 
-int joystick1yAxis;
-int joystick2xAxis; 
-int joystick2yAxis;
+byte PWMA = 1;
+byte AIN1 = 2;
+byte AIN2 = 0;
+byte PWMB = 5;
+byte BIN1 = 3;
+byte BIN2 = 4;
+byte motorSpeedA = 0;
+byte motorSpeedB = 0;
+byte steerPower = 150; // Adjust for power delivered to steering (0 to 255)
+byte motorSpeedAMAX = 90; //Adjust for maximum power delivered to motor A (0 to 255)
+unsigned long lastSpeedButtonReadTime = 0;
+unsigned long lastControllerReadTime = 0;
+unsigned long currentMillis = 0;
 
 // -------construct NRF data package-----------//
 struct Data_Package { // Create a single data package to be received over wireless
@@ -56,93 +54,111 @@ void setup() {
   radio.setDataRate(RF24_250KBPS);
   radio.setPALevel(RF24_PA_LOW);
   radio.startListening();
+    // Reset data on startup to default values
   resetData();
 }
 //------------------------------------------------------//
 
 
 //---------------------MAIN LOOP---------------------//
-void loop()
-{ 
-  if ( radio.available()) { 
-     radio.read(&data, sizeof(Data_Package)); // Read the signals from the joysticks
-     //Serial.println("joystick1-Y: "); // This section blocked out (for debugging if needed)
-     //Serial.print(data.joystick1yAxisBytes);
-     //Serial.println("joystick2-X: ");
-     Serial.println(data.joystick2xAxisBytes);
-
-     int joystick1xAxis = map(data.joystick1xAxisBytes, 0, 255, 0, 1023);
-     int joystick1yAxis = map(data.joystick1yAxisBytes, 0, 255, 0, 1023);
-     int joystick2xAxis = map(data.joystick2xAxisBytes, 0, 255, 0, 1023);
-     int joystick2yAxis = map(data.joystick2yAxisBytes, 0, 255, 0, 1023);
-  
-  // Left joystick Y-axis used for forward and backward control
-  //--------------------
-  // Y-axis used for forward and backward control
-  if (joystick1yAxis < 470) {
-    // Set Motor A backward
-    digitalWrite(AIN1, LOW);                          //set pin 1 to low
-    digitalWrite(AIN2, HIGH);                         //set pin 2 to high
-
-    // Convert the declining Y-axis readings for going backward from 470 to 0 into 0 to 255 value for the PWM signal for increasing the motor speed
-    motorSpeedA = map(joystick1yAxis, 470, 0, 0, motorSpeedAMAX);
-  } else if (joystick1yAxis > 550) {
-    // Set Motor A forward
-    digitalWrite(AIN1, HIGH);
-    digitalWrite(AIN2, LOW);
-
-    // Convert the increasing Y-axis readings for going forward from 550 to 1023 into 0 to 255 value for the PWM signal for increasing the motor speed
-    motorSpeedA = map(joystick1yAxis, 550, 1023, 0, motorSpeedAMAX);
-  } else {
-    motorSpeedA = 0;
-  }
-    
-//--------------
-  if (joystick2xAxis < 300) {
-    // Set Motor B backward
-    digitalWrite(BIN1, HIGH);      
-    digitalWrite(BIN2, LOW);   
-    motorSpeedB = steerPower;
-
-  } else if (joystick2xAxis > 700) {
-    // Set Motor B forward
-    digitalWrite(BIN1, LOW);
-    digitalWrite(BIN2, HIGH);
-    motorSpeedB = steerPower;
-  }
-  // If joystick stays in middle the motors are not moving
-  else {
-    motorSpeedB = 0;
-  }
-
-//-------------------
-  // Prevent buzzing at low speeds (Adjust according to your motors. My motors couldn't start moving if PWM value was below value of 70)
-  if (motorSpeedA < 70) {
-    motorSpeedA = 0;
-  }
-  if (motorSpeedB < 70) {
-    motorSpeedB = 0;
-  }
-  
-  analogWrite(PWMA, motorSpeedA); //now that the motor direction is set, drive it at the entered speed// Send PWM signal to motor A
-  analogWrite(PWMB, motorSpeedB); //now that the motor direction is set, drive it at the entered speed // Send PWM signal to motor B
-} 
-} 
+void loop() {
+    //read controller data
+    readController();
+    //set motor speeds
+    setMotorSpeeds();
+        // check speed mode select button, including a 500 ms time period where the button is ignored after being pressed to avoid accidental repeats
+        //if receiving button data and the button is pressed, and the necessary time has passed
+        //check the time
+        currentMillis = millis();
+    if ((radio.available()) && (data.joystick2Button == LOW) && ((currentMillis - lastSpeedButtonReadTime) > 500)) {
+        // then change the max speed
+        if (motorSpeedAMAX == 90) {
+            motorSpeedAMAX = 175;} else if (motorSpeedAMAX == 175) {
+                motorSpeedAMAX = 255;} else if (motorSpeedAMAX == 255) {
+                    motorSpeedAMAX = 90;
+            }
+        lastSpeedButtonReadTime = millis();
+        Serial.println(motorSpeedAMAX);
+    }
+}
 //------------------------------------------------------//
-
-
-
-
 
 //---------------OTHER COMMAND DEFINITIONS----------------------------//
 void resetData() { // Set the signals from the joysticks to neutral initially so the motors don't move yet
-  data.joystick1xAxisBytes = 127;
-  data.joystick1yAxisBytes = 127;
-  data.joystick2xAxisBytes = 127;
-  data.joystick2yAxisBytes = 127;
-  int joystick1xAxis = 500; 
-  int joystick1yAxis = 500;
-  int joystick2xAxis = 500; 
-  int joystick2yAxis = 500;
+    data.joystick1xAxisBytes = 127;
+    data.joystick1yAxisBytes = 127;
+    data.joystick2xAxisBytes = 127;
+    data.joystick2yAxisBytes = 127;
+    data.joystick2Button = 1;
+        // Serial.println("reset data"); //Serial printing generally commented out to save RAM unless debugging
   }
+
+void readController() {
+  if (radio.available()) {
+    radio.read(&data, sizeof(Data_Package));
+     /*Serial.println("joystick1-Y: ");
+     Serial.print(data.joystick1yAxisBytes);
+     Serial.print("joystick2-Y: ");
+     Serial.print(data.joystick2yAxisBytes);
+      Serial.println("joystick1-X: ");
+      Serial.print(data.joystick1xAxisBytes);
+      Serial.print("joystick2-X: ");
+      Serial.print(data.joystick2xAxisBytes);
+      //Serial.println("joystick2-Button: ");
+      //Serial.print(data.joystick2Button); */
+      // Record the last time the controller was successfully read
+      lastControllerReadTime = millis();
+  }
+    // Check the current time
+  currentMillis = millis();
+    // If the last successful control read is more than 1 second ago, reset the data to not lose control of the car
+  if ((currentMillis - lastControllerReadTime) > 1000) {
+    resetData();
+    }
+}
+
+void setMotorSpeeds() {
+        // Left joystick Y-axis used for forward and backward control
+        //--------------------
+        // Y-axis used for forward and backward control
+    if (data.joystick1yAxisBytes <= 123) {
+      // Set Motor A direction
+      digitalWrite(AIN1, LOW);
+      digitalWrite(AIN2, HIGH);
+      // Convert the declining Y-axis readings for going backward from 123 to 0 into 0 to max value for the PWM signal for increasing the motor speed
+      motorSpeedA = map(data.joystick1yAxisBytes, 123, 0, 0, motorSpeedAMAX);
+        // Serial.println(motorSpeedA);
+    } else if (data.joystick1yAxisBytes >= 132) {
+      // Set Motor A direction
+      digitalWrite(AIN1, HIGH);
+      digitalWrite(AIN2, LOW);
+      // Convert the increasing Y-axis readings for going forward from 138 to 255 into 0 to max value for the PWM signal for increasing the motor speed
+      motorSpeedA = map(data.joystick1yAxisBytes, 132, 255, 0, motorSpeedAMAX);
+    } else {
+        motorSpeedA = 0;
+    }
+    
+    if (data.joystick2xAxisBytes <= 100) {
+      // Set Motor B direction
+      digitalWrite(BIN1, HIGH);
+      digitalWrite(BIN2, LOW);
+      motorSpeedB = steerPower;
+    } else if (data.joystick2xAxisBytes >= 150) {
+      // Set Motor B direction
+      digitalWrite(BIN1, LOW);
+      digitalWrite(BIN2, HIGH);
+      motorSpeedB = steerPower;
+    } else {
+        motorSpeedB = 0;
+    }
+    
+    if (motorSpeedA < 20) {
+        motorSpeedA = 0;
+    }
+    if (motorSpeedB < 20) {
+        motorSpeedB = 0;
+    }
+    analogWrite(PWMA, motorSpeedA); //now that the motor direction is set, drive it at the entered speed// Send PWM signal to motor A
+    analogWrite(PWMB, motorSpeedB); //now that the motor direction is set, drive it at the entered speed // Send PWM signal to motor B
+}
 //------------------------------------------------------//
