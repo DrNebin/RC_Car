@@ -9,6 +9,11 @@ I have a half dozen V1 (Seeed) extra PCBs on hand. Contact me if you want one. I
 3. Highly adaptable parts and electronics (Arduino) - My V1 (Seeed) original prototype fit on one single 5x7cm protoboard. V2 (Feather) versions can include different steering and drive systems, such as Servo or even Stepper steering, or could incorporate brushless motors or other drive systems.
 4. Easy to Build - To make wiring easier and further decrease size, I created the V1 (Seeed) PCB. V2 (Feather) will use the Adafruit Feather system to make the car even easier to build without the need for PCB manufacture, and to further show adaptability. 
 
+# Absolute limitations for RC_Car
++ Car body width will not be less than 55 mm (so as to accept Seeeduino PCB, 5x7 protoboards, Double Feather setups, and Nano breakouts)
++ Car body length will not be less than 110 mm (gives room for steering motor, 130 style drive motor, and enought space to accept all the boards I just mentioned regarding width)
++ All components must fit in the dimensions of an Elegoo Mars Resin Bed when printed flat (max = 68mm x 120mm). Note that the Z height of the Mars is 150mm, but we want to print flat and will favor that orientation to decrease materials, time required and print failures.
+
 # RC_Car_V1_Seeed
 I learned about DC Motor control, and how to use the nRF modules from HowToMechatronics so check out that site: https://howtomechatronics.com/category/tutorials/
 I am planning to modify and shrink down some components from Carduino V2, particularly for the front and wheel axle printing: https://www.thingiverse.com/thing:4233353
