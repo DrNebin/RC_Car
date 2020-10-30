@@ -26,17 +26,17 @@ The Wireless nRF24L01 SPI is on 8 thru 10, and CE / CSN are pins 6 and 7 on the 
 
 This version is driving with two DC motors, one for drivetrain and one for steering. The steering DC motor uses rack and pinion for steering.
 
-Power setup is a 7.4V Lipo. The original was 850mAh. It was a bit big and GAGA on the power and battery life so planning on using around 400mAh capacity. The battery runs on a toggle switch to a 
+Power setup is a 7.4V Lipo. The original was 850mAh. It was a bit big and GAGA on the power and battery life so planning on using around 400mAh capacity. The battery runs on a toggle switch to a LM2596 to drop everything to 5V. The 5V is wired separately to the Seeeduino and the motor driver. Be aware, I did NOT use the VIN on the Seeed since it was not directly accessible by a pin. I also wired the 5V to the standy pin of the motor driver so the motor driver is always in an "ON" state when the switch is turned on. Therefore, do NOT give this setup more than 5V from your step down power source or you will likely kill both the motor driver and the Seeeduino.
 
 # RC_Car_CONTROLLER
-// Uses an Arduino NANO with two analog joysticks (right and left). Sends to nRF24L01 on the car being controlled. I use this controller right now for all my RC projects. It is highly adaptable. I will upload my PCB and INO files for the controller also.
+Uses an Arduino NANO with two analog joysticks (right and left). Sends to nRF24L01 on the car being controlled. I use this controller right now for all my RC projects. It is highly adaptable. I will upload my PCB and INO files for the controller also.
 
 # RC_Car_V2_Feather
 The plan for version 2 electronics when we get there is
-Adafruit Feather M0 Basic
++ Adafruit Feather M0 Basic
 + Adafruit DC Motor / Stepper Featherwing
-+/- Header kits +/- Featherwing doubler
-+/- Toggle switch vs Adafruit push button breakout
++ ?Header kits ?Featherwing doubler
++ ?Toggle switch vs ?Adafruit push button breakout
 + nRF24L01
 Total electronics Cost $40-60
 
