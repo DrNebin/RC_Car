@@ -21,7 +21,8 @@ byte BIN2 = 4;
 byte motorSpeedA = 0;
 byte motorSpeedB = 0;
 byte steerPower = 150; // Adjust for power delivered to steering (0 to 255)
-byte motorSpeedAMAX = 90; //Adjust for maximum power delivered to motor A (0 to 255)
+byte motorSpeedAMAX = 90; //Adjust for maximum power delivered forward to motor A (0 to 255)
+byte motorSpeedAReverse = 50; //Adjust for maximum power delivered reverse to motor A (0 to 255)
 unsigned long lastSpeedButtonReadTime = 0;
 unsigned long lastControllerReadTime = 0;
 unsigned long currentMillis = 0;
@@ -133,7 +134,7 @@ void setMotorSpeeds() {
       digitalWrite(AIN1, HIGH);
       digitalWrite(AIN2, LOW);
       // Convert the increasing Y-axis readings for going forward from 138 to 255 into 0 to max value for the PWM signal for increasing the motor speed
-      motorSpeedA = map(data.joystick1yAxisBytes, 132, 255, 0, motorSpeedAMAX);
+      motorSpeedA = map(data.joystick1yAxisBytes, 132, 255, 0, motorSpeedAReverse);
     } else {
         motorSpeedA = 0;
     }
