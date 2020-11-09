@@ -1,7 +1,7 @@
 # RC_Car (Devin Namaky)
 My ongoing design for a SMALL RC Car 3D printable on a small resin printer driven by Arduino. Currently included here are the first version (Seeeduino) schematics, PCB design (PCB prints are of course optional, but help decrease the footprint), and the INO files. As I get together a 3D print design I will add that also. Not really ready for prime time, but uploading as I go.
 
-I have a half dozen V1 (Seeed) extra PCBs on hand. Contact me if you want one. I'd charge you $10 plus shipping.
+I have a half dozen V1 (Seeed) extra PCBs on hand. Contact me at www.devinnamaky.com if you want one. I'd charge you $10 plus shipping.
 
 # The main overarching objectives / themes of this project are
 1. A small footprint - Our benchmark is to be able to print it on an Elegoo Mars Resin bed, ideally with few (or no) supports.
@@ -45,4 +45,4 @@ The plan for version 2 electronics when we get there is
 + ?Toggle switch vs ?Adafruit push button breakout
 + nRF24L01
 
-Devin Namaky
+DrNebin
