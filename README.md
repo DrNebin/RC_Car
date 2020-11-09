@@ -11,12 +11,11 @@ I have a half dozen V1 (Seeed) extra PCBs on hand. Contact me if you want one. I
 
 # Absolute limitations for RC_Car
 + Car body width will not be less than 55 mm (so as to accept Seeeduino PCB, 5x7 protoboards, Double Feather setups, and Nano breakouts)
-+ Car body length will not be less than 110 mm (gives room for steering motor, 130 style drive motor, and enought space to accept all the boards I just mentioned regarding width)
-+ All components must fit in the dimensions of an Elegoo Mars Resin Bed when printed flat (max = 68mm x 120mm). Note that the Z height of the Mars is 150mm, but we want to print flat and will favor that orientation to decrease materials, time required and print failures.
++ Car body length will not be less than 110 mm (gives room for steering motor, 130 style drive motor, and enough space to accept all the boards I just mentioned regarding width)
++ All components must individually fit in the dimensions of the original Elegoo Mars Resin Bed when printed flat (max = 68mm x 120mm). Note that the max Z height of the Mars is 150mm, but we want the option to print as flat as possible and will favor that orientation to decrease materials, time required and print failures. (Although, I acknoledge we are actually shooting to print with supports at about a 15 degree angle, which will decrease deformation.)
 
 # RC_Car_V1_Seeed
 I learned about DC Motor control, and how to use the nRF modules from HowToMechatronics so check out that site: https://howtomechatronics.com/category/tutorials/
-I am planning to modify and shrink down some components from Carduino V2, particularly for the front and wheel axle printing: https://www.thingiverse.com/thing:4233353
 
 Code for V1 (the Seeeduino version) uses the freely available libraries for nRF24 and SPI.
 
@@ -29,9 +28,11 @@ This car receives from a controller, the design of which I am including the proj
 The TB6612FNG Motor driver occupies PINs 0 thru 5 on the Seeeduino XIAO. You might notice an unexpected pinout order at pins 0 and 1. This is because I realized late in the game that pin 0 on the XIAO is not PWM.
 The Wireless nRF24L01 SPI is on 8 thru 10, and CE / CSN are pins 6 and 7 on the XIAO.
 
-This version is driving with two DC motors, one for drivetrain and one for steering. The steering DC motor uses rack and pinion for steering.
+This version is driving with two standard hobby 130 style DC motors, one for drivetrain and one for steering. The steering DC motor uses rack and pinion for steering in this first version.
 
-Power setup is a 7.4V Lipo. The original was 850mAh. It was a bit big and GAGA on the power and battery life so planning on using around 400mAh capacity. The battery runs on a toggle switch to a LM2596 to drop everything to 5V. The 5V is wired separately to the Seeeduino and the motor driver. Be aware, I did NOT use the VIN on the Seeed since it was not directly accessible by a pin. I also wired the 5V to the standy pin of the motor driver so the motor driver is always in an "ON" state when the switch is turned on. Therefore, do NOT give this setup more than 5V from your step down power source or you will likely kill both the motor driver and the Seeeduino.
+Power setup is a 7.4V Lipo. The original was 850mAh. It was a bit big and GAGA on the power and battery life so I am planning on using around 400mAh capacity. The battery runs on a toggle switch to a LM2596 to drop everything to 5V. The 5V is wired separately to the Seeeduino and the motor driver. Be aware, I did NOT use the VIN on the Seeed since it was not directly accessible by a pin. I also wired the 5V to the standy pin of the motor driver so the motor driver is always in an "ON" state when the switch is turned on. Therefore, do NOT give this setup more than 5V from your step down power source or you will likely kill both the motor driver and the Seeeduino.
+
+The power system is another highly modifiable trait of this car obviously. I am lookiing with the future version to power the entire system with 4 x AAA rechargeable batteries, which would also give 5 volts without the need for a step converter. The main design change would be fitting a AAA battery holder on the lower body plate, which I believe is feasible.
 
 # RC_Car_CONTROLLER
 Uses an Arduino NANO with two analog joysticks (right and left). Sends to nRF24L01 on the car being controlled. I use this controller right now for all my RC projects. It is highly adaptable. I will upload my PCB and INO files for the controller also.
@@ -43,8 +44,5 @@ The plan for version 2 electronics when we get there is
 + ?Header kits ?Featherwing doubler
 + ?Toggle switch vs ?Adafruit push button breakout
 + nRF24L01
-Total electronics Cost $40-60
 
-If you are interested in helping let me know.
-
-DrNebin
+Devin Namaky
