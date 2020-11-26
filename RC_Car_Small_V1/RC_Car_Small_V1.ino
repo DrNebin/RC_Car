@@ -20,9 +20,9 @@ byte BIN1 = 3;
 byte BIN2 = 4;
 byte motorSpeedA = 0;
 byte motorSpeedB = 0;
-byte steerPower = 150; // Adjust for power delivered to steering (0 to 255)
-byte motorSpeedAMAX = 90; //Adjust for maximum power delivered forward to motor A (0 to 255)
-byte motorSpeedAReverse = 50; //Adjust for maximum power delivered reverse to motor A (0 to 255)
+byte steerPower = 255; // Adjust for power delivered to steering (0 to 255)
+byte motorSpeedAMAX = 255; //Adjust for maximum power delivered forward to motor A (0 to 255)
+byte motorSpeedAReverse = 255; //Adjust for maximum power delivered reverse to motor A (0 to 255)
 unsigned long lastSpeedButtonReadTime = 0;
 unsigned long lastControllerReadTime = 0;
 unsigned long currentMillis = 0;
@@ -91,22 +91,22 @@ void resetData() { // Set the signals from the joysticks to neutral initially so
     data.joystick2xAxisBytes = 127;
     data.joystick2yAxisBytes = 127;
     data.joystick2Button = 1;
-        // Serial.println("reset data"); //Serial printing generally commented out to save RAM unless debugging
+         Serial.println("reset data"); //Serial printing generally commented out to save RAM unless debugging
   }
 
 void readController() {
   if (radio.available()) {
     radio.read(&data, sizeof(Data_Package));
-     /*Serial.println("joystick1-Y: ");
+     /* Serial.println("joystick1-Y: ");
      Serial.print(data.joystick1yAxisBytes);
      Serial.print("joystick2-Y: ");
      Serial.print(data.joystick2yAxisBytes);
       Serial.println("joystick1-X: ");
       Serial.print(data.joystick1xAxisBytes);
       Serial.print("joystick2-X: ");
-      Serial.print(data.joystick2xAxisBytes);
+      Serial.print(data.joystick2xAxisBytes); */
       //Serial.println("joystick2-Button: ");
-      //Serial.print(data.joystick2Button); */
+      //Serial.print(data.joystick2Button); 
       // Record the last time the controller was successfully read
       lastControllerReadTime = millis();
   }
@@ -128,7 +128,7 @@ void setMotorSpeeds() {
       digitalWrite(AIN2, HIGH);
       // Convert the declining Y-axis readings for going backward from 123 to 0 into 0 to max value for the PWM signal for increasing the motor speed
       motorSpeedA = map(data.joystick1yAxisBytes, 123, 0, 0, motorSpeedAMAX);
-        // Serial.println(motorSpeedA);
+         Serial.println(motorSpeedA);
     } else if (data.joystick1yAxisBytes >= 132) {
       // Set Motor A direction
       digitalWrite(AIN1, HIGH);
