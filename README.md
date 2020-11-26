@@ -12,7 +12,7 @@ I have a half dozen V1 (Seeed) extra PCBs on hand. Contact me at www.devinnamaky
 # Absolute limitations for RC_Car
 + Car body width will not be less than 55 mm (so as to accept Seeeduino PCB, 5x7 protoboards, Double Feather setups, and Nano breakouts)
 + Car body length will not be less than 110 mm (gives room for steering motor, 130 style drive motor, and enough space to accept all the boards I just mentioned regarding width)
-+ All components must individually fit in the dimensions of the original Elegoo Mars Resin Bed when printed flat (max = 68mm x 120mm). Note that the max Z height of the Mars is 150mm, but we want the option to print as flat as possible and will favor that orientation to decrease materials, time required and print failures. (Although, I acknoledge we are actually shooting to print with supports at about a 20 degree angle, which will decrease deformation.)
++ All components must individually fit in the dimensions of the original Elegoo Mars Resin Bed when printed flat (max = 68mm x 120mm). Note that the max Z height of the Mars is 150mm, but we want the option to print as flat as possible and will favor that orientation to decrease materials, time required and print failures. (Although, I acknowledge we are actually shooting to print with supports at about a 20 degree angle, which will decrease deformation.)
 
 # RC_Car_V1_Seeed
 I learned about DC Motor control, and how to use the nRF modules from HowToMechatronics so check out that site: https://howtomechatronics.com/category/tutorials/
