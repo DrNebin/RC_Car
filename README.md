@@ -6,15 +6,15 @@ I have a half dozen V1 (Seeed) extra PCBs on hand. Contact me at www.devinnamaky
 # The main overarching objectives / themes of this project are
 1. A small footprint - My benchmark is to be able to print it on an Original Elegoo Mars Resin bed, ideally with few (or no) supports.
 2. Simple design - We will try and minimize the number of parts. Do what you want in a fork, but for my base designs I only want the minimum parts needed to have fun.
-3. Highly adaptable parts and electronics (Arduino) - My V1 (Seeed) original prototype fit on one single 5x7cm protoboard. V2 (Feather) and subsequent versions can include different steering and drive systems, such as Servo or even Stepper steering, or could incorporate brushless motors or other drive systems.
-4. Easy to Build - To make wiring easier and further decrease size, I created the V1 (Seeed) PCB. V2 (Feather) will use the Adafruit Feather system to make the car even easier to build without the need for PCB manufacture, and to further show adaptability. 
+3. Highly adaptable parts and electronics (Arduino) - My V1 (Seeed) original prototype fit on one single 5x7cm protoboard. V2 (Nano) and subsequent versions can include different steering and drive systems, such as Servo or even Stepper steering, or could incorporate brushless motors or other drive systems.
+4. Easy to Build - To make wiring easier and further decrease size, I created the V1 (Seeed) PCB. V2 (Nano) will use an Arduino Nano system and use Servo Steering. 
 
 # Absolute limitations for RC_Car
 + Car body width will not be less than 55 mm (so as to accept Seeeduino PCB, 5x7 protoboards, Double Feather setups, and Nano breakouts)
 + Car body length will not be less than 110 mm (gives room for steering motor, 130 style drive motor, and enough space to accept all the boards I just mentioned regarding width)
 + All components must individually fit in the dimensions of the original Elegoo Mars Resin Bed when printed flat (max = 68mm x 120mm). Note that the max Z height of the Mars is 150mm, but we want the option to print as flat as possible and will favor that orientation to decrease materials, time required and print failures. (Although, I acknowledge we are actually shooting to print with supports at about a 20 degree angle, which will decrease deformation.)
 
-# RC_Car_V1_Seeed
+# RC_Car_V1 (Seeed)
 I learned about DC Motor control, and how to use the nRF modules from HowToMechatronics so check out that site: https://howtomechatronics.com/category/tutorials/
 
 Code for V1 (the Seeeduino version) uses the freely available libraries for nRF24 and SPI.
@@ -23,7 +23,7 @@ This project originated when I wanted to hack a small RC Car that broke. You can
 
 Just about any small microcontroller will do, but using here for V1 (Seeed) a Seeeduino XIAO for the small footprint. 
 
-This car receives from a controller, the design of which I am including the project. There are two joysticks. Joystick data can be processed a variety of ways. In this version the left joystick y-axis controls F / R, and the right joystick x-axis controls L / R. The right joystick push button is used to control the max motor speed. This is useful if you want to run the car indoor vs outdoor or simply don't want to strip your gears or crash into a wall with too much power depending on the power setup you choose.
+This car receives from a controller, the design of which I am including in the project. There are two joysticks. Joystick data can be processed a variety of ways. In this version the left joystick y-axis controls F / R, and the right joystick x-axis controls L / R. The right joystick push button is used to control the max motor speed. This is useful if you want to run the car indoor vs outdoor or simply don't want to strip your gears or crash into a wall with too much power depending on the power setup you choose.
 
 The TB6612FNG Motor driver occupies PINs 0 thru 5 on the Seeeduino XIAO. You might notice an unexpected pinout order at pins 0 and 1. This is because I realized late in the game that pin 0 on the XIAO is not PWM.
 The Wireless nRF24L01 SPI is on 8 thru 10, and CE / CSN are pins 6 and 7 on the XIAO.
@@ -50,12 +50,11 @@ The Wanhao took me four tries to successfully print as I had no real guidance. I
 # RC_Car_CONTROLLER
 Uses an Arduino NANO with two analog joysticks (right and left). Sends to the nRF24L01 on the car being controlled. I use this controller right now for all my RC projects. It is highly adaptable. I will upload my PCB and INO files for the controller also. I have some plans to improve the controller in the future. When I get around to them I will update the files.
 
-# RC_Car_V2_Feather
+# RC_Car_V2 (Nano)
 The plan for the version 2 electronics is
-+ Adafruit Feather M0 Basic
-+ Adafruit DC Motor / Stepper Featherwing
-+ ?Header kits ?Featherwing doubler
-+ ?Toggle switch vs ?Adafruit push button breakout
++ Arduino Nano
++ Servo Steering
++ Adafruit momentary push button breakout
 + nRF24L01
 
 DrNebin
