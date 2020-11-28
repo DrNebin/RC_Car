@@ -23,7 +23,7 @@ This project originated when I wanted to hack a small RC Car that broke. You can
 
 Just about any small microcontroller will do, but using here for V1 (Seeed) a Seeeduino XIAO for the small footprint. 
 
-This car receives from a controller, the design of which I am including in the project. There are two joysticks. Joystick data can be processed a variety of ways. In this version the left joystick y-axis controls F / R, and the right joystick x-axis controls L / R. The right joystick push button is used to control the max motor speed. This is useful if you want to run the car indoor vs outdoor or simply don't want to strip your gears or crash into a wall with too much power depending on the power setup you choose.
+This car receives from a controller, the design of which I am including in the project. There are two joysticks. Joystick data can be processed a variety of ways. In this version the left joystick y-axis controls F / R, and the right joystick x-axis controls L / R. The right joystick push button is used to control the max motor speed. There are three different speed settings it toggles through. This is useful if you want to run the car indoor vs outdoor or simply don't want to strip your gears or crash into a wall with too much power depending on the power setup you choose.
 
 The TB6612FNG Motor driver occupies PINs 0 thru 5 on the Seeeduino XIAO. You might notice an unexpected pinout order at pins 0 and 1. This is because I realized late in the game that pin 0 on the XIAO is not PWM.
 The Wireless nRF24L01 SPI is on 8 thru 10, and CE / CSN are pins 6 and 7 on the XIAO.
