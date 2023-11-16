@@ -2,6 +2,8 @@
 
 This is the bill of materials for RC_Car_RP (Rack and Pinion). This is for the car only and does not include the wireless joystick controller.
 
+I still haven't gotten around to adjusting this BOM for the SS version, but you can see most of them in the CAD file.  You can always message me for specific questions until I get around to it.
+
 #Electronics
 
 - Seeeduino XIAO, Qty. 1
