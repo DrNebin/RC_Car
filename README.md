@@ -1,8 +1,6 @@
 # RC_Car (Devin Namaky)
 My ongoing design for a SMALL RC Car 3D printable on a small resin printer driven by Arduino based electronics. Currently included here are two versions with all the schematics, PCB design (PCB prints are of course optional, but help decrease the footprint),  INO sketch files, STL files for printing, CAD files, etc. RC_Car_RP (Rack and Pinion) version uses two DC motors and a Seeeduino XIAO. The RC_Car_SS (Servo Steering) version uses one micro servo and one DC motor and an Arduino Nano. The RC_Car_SS Version is really a better design for several reason I won't belabor but if you want to build one of these cars, build RC_Car_SS.
 
-I have a half dozen extra PCBs on hand. Contact me at https://www.devinnamaky.com if you want one. I'd charge you $10 plus shipping.
-
 # The main overarching objectives / themes of this project are
 1. A small footprint - My benchmark is to be able to print it on an Original Elegoo Mars Resin 3D printer (Even the tires!).
 2. Simple design - I have tried to minimize the number of parts.
@@ -22,7 +20,7 @@ Don't build this version. I recommend you build the RC_Car_SS version.
 
 Code for RC_Car uses the freely available libraries for nRF24 and SPI.
 
-This project originated when I wanted to hack one of my kids small RC Cars that broke. You can see it here on Reddit: https://www.reddit.com/r/arduino/comments/jjs9hx/my_kids_rc_car_stopped_working_so_i_hacked_it/
+This project originated when I wanted to hack one of my kids small RC Cars that broke.
 
 Just about any small microcontroller will do, but using here for RC_Car_RP a Seeeduino XIAO for the small footprint. 
 
@@ -58,4 +56,4 @@ Version 2 of the controller has many improvements and is the version I recommend
 
 Last note on Version 2 is that the Fritzing object has a bug that has a square copper connection for the positive lead on the capacitor, and a round one for the negative. The silkscreen includes a small negative sign that warns you of this. You can omit the capacitor if you have to.
 
-DrNebin
+Devin Namaky
